@@ -39,7 +39,7 @@ class ImplicitGrant {
 
     login() {
         var client_id = '86fd4a042b0447cab2dee2c58f417c05'; // Your client id
-        var redirect_uri = 'http://localhost:8081/callback'; // Your redirect uri
+        var redirect_uri = 'http://localhost:8080/callback'; // Your redirect uri
 
         var state = this.generateRandomString(16);
 
