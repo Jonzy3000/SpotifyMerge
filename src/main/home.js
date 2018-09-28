@@ -2,7 +2,7 @@ import React from "react";
 import UserProfile from "./../spotifyApi/requests/userProfile.js"
 import Utils from "./../spotifyApi/utils.js"
 import {FullListOfPlaylists} from "./../spotifyApi/requests/playlists.js"
-import {Well} from "react-bootstrap";
+import {Grid, ListGroup, ListGroupItem, PageHeader, Row, Glyphicon} from "react-bootstrap";
 
 class Home extends React.Component {
     constructor(props) {
@@ -30,17 +30,17 @@ class Home extends React.Component {
 
     render() {
         return (
-            <div>
-                <div>
-                    Hello {this.state.userId} <br/> 
-                    Logged In!
-                </div>
-                <div>
-                    {this.state.playlists.map((playlist) => {
-                        return <Well>{playlist.name}</Well>;
-                    })}
-                </div>
-            </div>
+            <Grid>
+                <PageHeader>Hello, {this.state.userId}  </PageHeader>
+                    <ListGroup>
+                        <ListGroupItem>
+                            <Glyphicon glyph="plus" /> Create New Playlist
+                        </ListGroupItem>
+                        {this.state.playlists.map((playlist) => {
+                            return <ListGroupItem key={playlist.id} onClick={()=>{}}>{playlist.name}</ListGroupItem>;
+                        })}
+                    </ListGroup>
+            </Grid>
         );
     }
 }

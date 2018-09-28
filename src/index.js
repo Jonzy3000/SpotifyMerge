@@ -4,16 +4,6 @@ import LoginPage from "./auth/loginPage.js";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Home from "./main/home.js";
 
-const Index = () => {
-  return <LoginPage />
-};
-
-const About = () => (
-  <div>
-    <h2>About</h2>
-  </div>
-);
-
 ReactDOM.render(
   (<Router>
     <Switch>
