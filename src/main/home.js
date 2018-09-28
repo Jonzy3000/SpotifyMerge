@@ -1,7 +1,7 @@
 import React from "react";
 import UserProfile from "./../spotifyApi/requests/userProfile.js"
 import Utils from "./../spotifyApi/utils.js"
-import {FullListOfPlaylists} from "./../spotifyApi/requests/playlists.js"
+import {FullListOfPlaylists, Playlists} from "./../spotifyApi/requests/playlists.js"
 import {Grid, ListGroup, ListGroupItem, PageHeader, Row, Glyphicon} from "react-bootstrap";
 
 class Home extends React.Component {
@@ -13,6 +13,8 @@ class Home extends React.Component {
             userId: "",
             playlists: []
         };
+
+        this.playlistRequests = new Playlists(this.state.oAuthToken);
     }
 
     componentDidMount() {
@@ -33,7 +35,13 @@ class Home extends React.Component {
             <Grid>
                 <PageHeader>Hello, {this.state.userId}  </PageHeader>
                     <ListGroup>
-                        <ListGroupItem>
+                        <ListGroupItem onClick={() => {
+                            this.playlistRequests.createPlaylist(this.state.userId, {
+                                name: "test",
+                                public: false,
+
+                            }).then((resp) => {console.log(resp);})
+                        }}>
                             <Glyphicon glyph="plus" /> Create New Playlist
                         </ListGroupItem>
                         {this.state.playlists.map((playlist) => {

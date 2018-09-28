@@ -45,7 +45,7 @@ class ImplicitGrant {
 
         localStorage.setItem(this.stateKey, state);
 
-        var scope = 'user-read-private user-read-email';
+        var scope = 'user-read-private user-read-email playlist-read-private playlist-modify-private playlist-read-collaborative playlist-modify-public';
 
         var url = 'https://accounts.spotify.com/authorize';
         url += '?response_type=token';

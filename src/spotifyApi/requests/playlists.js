@@ -73,6 +73,16 @@ class Playlists {
             }
         });
     }
+
+    createPlaylist(userId, playlistOptions) {
+        return axios.post(
+            `${Utils.SPOTIFY_URL}/users/${userId}/playlists`,
+            playlistOptions, {
+                headers: {
+                    "Authorization": "Bearer " + this.oAuthToken
+                }
+            });
+    }
 }
 
 export {
