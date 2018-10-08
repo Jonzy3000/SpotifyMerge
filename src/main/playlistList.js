@@ -25,8 +25,8 @@ class PlaylistListContainer extends React.Component {
         this.setState({ isChildVisible: !this.state.isChildVisible });
     }
 
-    goToPlaylist() {
-
+    goToPlaylist(id) {
+        this.props.history.push(`/playlist#id=${id}`)
     }
 
     render() {
@@ -35,7 +35,8 @@ class PlaylistListContainer extends React.Component {
                 toggleChildVisibility={() => { this.toggleChildVisibility() }}
                 isChildVisible={this.state.isChildVisible}
                 playlists={this.state.playlists}
-                onClick={(id) => { this.props.history.push(`/playlist#id=${id}`) }}
+                onClick={(id) => { this.goToPlaylist(id) }}
+                onSuccess={(id) => { this.goToPlaylist(id) }}
             />
         );
     }
@@ -46,7 +47,10 @@ const PlaylistList = (props) =>
         <ListGroupItem onClick={() => props.toggleChildVisibility()}>
             <Glyphicon glyph="plus" /> Create New Playlist
             <div>
-                <NewPlaylistModalContainer isVisible={props.isChildVisible} />
+                <NewPlaylistModalContainer
+                    isVisible={props.isChildVisible}
+                    onSuccess={props.onSuccess}
+                />
             </div>
         </ListGroupItem>
         {props.playlists.map((playlist) => {
@@ -83,7 +87,11 @@ class NewPlaylistModalContainer extends React.Component {
             name: name,
             description: description
 
-        }).then((resp) => { console.log(resp); });
+        }).then((resp) => {
+            if (resp.status === 201) {
+                this.state.onSuccess(resp.data.id);
+            }
+        });
     }
 
     onSuccessClick() {
