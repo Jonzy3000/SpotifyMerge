@@ -1,21 +1,19 @@
 import React from "react";
-import { FormGroup, Button, InputGroup, Checkbox, FormControl, ControlLabel, Glyphicon, ListGroup, ListGroupItem } from "react-bootstrap";
+import { FormGroup, Button, InputGroup, FormControl, Glyphicon, ListGroup, ListGroupItem } from "react-bootstrap";
 import { FullListOfPlaylists, Playlists } from "./../spotifyApi/requests/playlists.js"
 
 class PlaylistList extends React.Component {
-    constructor(props) {
+    constructor() {
         super();
 
         this.state = {
             playlists: [],
-            oAuthToken: props.oAuthToken,
-            userId: props.userId,
             isChildVisible: false
         }
     }
 
     componentDidMount() {
-        new FullListOfPlaylists(this.state.oAuthToken).getFullListOfUsersPlaylists()
+        FullListOfPlaylists.getFullListOfUsersPlaylists()
             .then((resp) => {
                 console.log(resp);
                 this.setState({ playlists: resp });
@@ -50,7 +48,9 @@ class NewPlaylistModal extends React.Component {
         this.state = {
             onSuccess: props.onSuccess,
             onFail: props.onFail,
-            isVisible: props.isVisible
+            isVisible: props.isVisible,
+            name: "",
+            description: "",
         };
 
         //this.playlistsRequests won't be made yet
@@ -60,39 +60,56 @@ class NewPlaylistModal extends React.Component {
         this.setState({ isVisible: props.isVisible })
     }
 
-    createPlaylist(name, isPublic, description) {
-        this.playlistRequests.createPlaylist(this.state.userId, {
+    createPlaylist() {
+        const { description, name } = this.state;
+        Playlists.createPlaylist({
             name: name,
-            public: isPublic,
             description: description
 
         }).then((resp) => { console.log(resp); });
     }
 
+    onSuccessClick() {
+        this.createPlaylist();
+    }
+
     visible() {
         return (
-            <form>
-                <FormGroup controlId="name" bSize="small">
+            <form onClick={(e) => {
+                e.stopPropagation();
+            }}>
+                <hr />
+                <FormGroup controlId="name" bsSize="small">
                     <InputGroup>
                         <InputGroup.Addon>Name</InputGroup.Addon>
-                        <FormControl type="text" />
+                        <FormControl
+                            onChange={(e) => this.setState({ name: e.target.value })}
+                            type="text"
+                        />
                     </InputGroup>
                 </FormGroup>
 
-                <Checkbox>
-                    Public
-                </Checkbox>
-
-                <FormGroup controlId="formControlsTextarea">
+                <FormGroup controlId="description">
                     <InputGroup>
                         <InputGroup.Addon>Description</InputGroup.Addon>
-                        <FormControl componentClass="textarea" placeholder="textarea" />
+                        <FormControl
+                            componentClass="textarea"
+                            placeholder="textarea"
+                            onChange={(e) => this.setState({ description: e.target.value })}
+                        />
                     </InputGroup>
                 </FormGroup>
 
-
-                <Button type="submit"><Glyphicon glyph="plus" /> Create</Button>
-            </form>
+                <FormGroup>
+                    <Button
+                        bsStyle="success"
+                        onClick={() => this.onSuccessClick()}
+                        block
+                    >
+                        <Glyphicon glyph="plus" /> Create Playlist
+                    </Button>
+                </FormGroup>
+            </form >
         );
     }
 

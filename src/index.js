@@ -1,14 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import LoginPage from "./auth/loginPage.js";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./main/home.js";
+import { Provider } from "react-redux"
+import store from "./redux/store";
 
 ReactDOM.render(
-  (<Router>
-    <Switch>
-      <Route exact path="/" component={LoginPage} />
-      <Route path="/callback" component={Home} />
-    </Switch>
-  </Router >),
+  (<Provider store={store}>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={LoginPage} />
+        <Route path="/callback" component={Home} />
+      </Switch>
+    </Router >
+  </Provider>),
   document.getElementById("index"));

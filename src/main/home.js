@@ -1,11 +1,23 @@
 import React from "react";
 import UserProfile from "./../spotifyApi/requests/userProfile.js"
 import Utils from "./../spotifyApi/utils.js"
-import { FullListOfPlaylists, Playlists } from "./../spotifyApi/requests/playlists.js"
-import { Grid, ListGroup, ListGroupItem, PageHeader, Row, Glyphicon } from "react-bootstrap";
+import { Grid, PageHeader } from "react-bootstrap";
 import PlaylistLists from "./playlistList.js";
+import * as userActions from "../redux/actions/user";
+import { connect } from "react-redux";
 
-class Home extends React.Component {
+const mapDispatchToProps = dispatch => {
+    return {
+        updateOAuth: oAuthToken => dispatch(
+            userActions.updateOAuthToken(oAuthToken)
+        ),
+        updateUserId: id => dispatch(
+            userActions.updateUserId(id)
+        )
+    };
+}
+
+class ConnectedHome extends React.Component {
     constructor(props) {
         super();
 
@@ -15,13 +27,14 @@ class Home extends React.Component {
             playlists: []
         };
 
-        this.playlistRequests = new Playlists(this.state.oAuthToken);
+        props.updateOAuth(Utils.getHashParams().access_token);
     }
 
     componentDidMount() {
-        new UserProfile().getCurrentUsersProfile(this.state.oAuthToken)
+        UserProfile.getCurrentUsersProfile()
             .then((resp) => {
                 this.setState({ userId: resp.data.id });
+                this.props.updateUserId(resp.data.id);
             });
     }
 
@@ -29,7 +42,7 @@ class Home extends React.Component {
         return (
             <Grid>
                 <HomeHeader id={this.state.userId} />
-                <PlaylistLists userId={this.state.userId} oAuthToken={this.state.oAuthToken} />
+                <PlaylistLists />
             </Grid>
         );
     }
@@ -41,4 +54,5 @@ const HomeHeader = (props) => {
     );
 }
 
+const Home = connect(null, mapDispatchToProps)(ConnectedHome);
 export default Home;

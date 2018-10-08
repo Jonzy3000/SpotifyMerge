@@ -1,6 +1,6 @@
 import React from "react";
 import ImplicitGrant from "./implicitGrant.js";
-import {Grid, Button, PageHeader} from "react-bootstrap";
+import { Grid, Button, PageHeader } from "react-bootstrap";
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -17,7 +17,7 @@ class LoginPage extends React.Component {
             <Grid>
                 <div className="login">
                     <PageHeader>Login</PageHeader>
-                    <Button onClick={() => {this.handleLoginClick()}}>Login</Button>
+                    <Button onClick={() => { this.handleLoginClick() }}>Login</Button>
                 </div>
             </Grid>
         );
