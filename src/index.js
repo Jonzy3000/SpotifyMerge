@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./main/home.js";
 import { Provider } from "react-redux"
 import store from "./redux/store";
+import PlaylistContainer from "./main/playlist";
 
 ReactDOM.render(
   (<Provider store={store}>
@@ -12,6 +13,7 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/" component={LoginPageContainer} />
         <Route path="/callback" component={Home} />
+        <Route path="/playlist" component={PlaylistContainer} />
       </Switch>
     </Router >
   </Provider>),

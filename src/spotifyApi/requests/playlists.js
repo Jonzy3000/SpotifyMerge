@@ -40,6 +40,35 @@ class FullListOfPlaylists {
     }
 }
 
+class FullListOfTracks {
+    static getPlaylistWithAllTracks(playlistId) {
+        return Playlists.getListOfTracksFromPlaylist(playlistId).then((resp) => {
+            if (resp.data.next) {
+                return FullListOfTracks.keepGettingTracks(resp.data.next, resp.data.items);
+            } else {
+                return resp.data.items;
+            }
+        })
+    }
+
+    static keepGettingTracks(nextUrl, tracks) {
+        if (nextUrl) {
+            return Playlists.get(nextUrl).then((resp) => {
+                if (resp.data.next) {
+                    return FullListOfTracks.keepGettingTracks(
+                        resp.data.next,
+                        [...tracks, ...resp.data.items]
+                    );
+                } else {
+                    return [...tracks, ...resp.data.items];
+                }
+            })
+        } else {
+            return tracks;
+        }
+    }
+}
+
 class Playlists {
     static getListOfUsersPlaylists() {
         const url = `${Utils.SPOTIFY_URL}/me/playlists`;
@@ -48,6 +77,14 @@ class Playlists {
                 "Authorization": "Bearer " + store.getState().users.oAuthToken
             }
         });
+    }
+
+    static get(url) {
+        return axios.get(url, {
+            headers: {
+                "Authorization": "Bearer " + store.getState().users.oAuthToken
+            }
+        })
     }
 
     static getNextPageListOfUsersPlaylists(nextUrl) {
@@ -59,6 +96,14 @@ class Playlists {
     }
 
     static getListOfTracksFromPlaylist(playlistId) {
+        return axios.get(`${PLAYLIST_URL}/${playlistId}/tracks`, {
+            headers: {
+                "Authorization": "Bearer " + store.getState().users.oAuthToken
+            }
+        });
+    }
+
+    static getPlaylist(playlistId) {
         return axios.get(`${PLAYLIST_URL}/${playlistId}`, {
             headers: {
                 "Authorization": "Bearer " + store.getState().users.oAuthToken
@@ -79,5 +124,6 @@ class Playlists {
 
 export {
     Playlists,
-    FullListOfPlaylists
+    FullListOfPlaylists,
+    FullListOfTracks
 };

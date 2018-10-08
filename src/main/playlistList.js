@@ -1,6 +1,7 @@
 import React from "react";
 import { FormGroup, Button, InputGroup, FormControl, Glyphicon, ListGroup, ListGroupItem } from "react-bootstrap";
 import { FullListOfPlaylists, Playlists } from "./../spotifyApi/requests/playlists.js"
+import { withRouter } from "react-router-dom";
 
 class PlaylistListContainer extends React.Component {
     constructor() {
@@ -24,12 +25,17 @@ class PlaylistListContainer extends React.Component {
         this.setState({ isChildVisible: !this.state.isChildVisible });
     }
 
+    goToPlaylist() {
+
+    }
+
     render() {
         return (
             <PlaylistList
                 toggleChildVisibility={() => { this.toggleChildVisibility() }}
                 isChildVisible={this.state.isChildVisible}
                 playlists={this.state.playlists}
+                onClick={(id) => { this.props.history.push(`/playlist#id=${id}`) }}
             />
         );
     }
@@ -44,7 +50,12 @@ const PlaylistList = (props) =>
             </div>
         </ListGroupItem>
         {props.playlists.map((playlist) => {
-            return <ListGroupItem key={playlist.id} onClick={() => { }}>{playlist.name}</ListGroupItem>;
+            return <ListGroupItem
+                key={playlist.id}
+                onClick={() => props.onClick(playlist.id)}
+            >
+                {playlist.name}
+            </ListGroupItem>;
         })}
     </ListGroup>
 
@@ -144,4 +155,4 @@ class NewPlaylistModal extends React.Component {
     }
 }
 
-export default PlaylistListContainer;
+export default withRouter(PlaylistListContainer);

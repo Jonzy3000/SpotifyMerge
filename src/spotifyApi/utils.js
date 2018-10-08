@@ -15,6 +15,10 @@ const Utils = {
             hashParams[d(e[1])] = d(e[2]);
 
         return hashParams;
+    },
+    getLastPramOfUrl: (url) => {
+        const splitUrl = url.split("/");
+        return splitUrl[splitUrl.length - 1] || "";
     }
 }
 
