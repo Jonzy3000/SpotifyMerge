@@ -2,7 +2,7 @@ import React from "react";
 import UserProfile from "./../spotifyApi/requests/userProfile.js"
 import Utils from "./../spotifyApi/utils.js"
 import { Grid, PageHeader } from "react-bootstrap";
-import PlaylistLists from "./playlistList.js";
+import PlaylistListContainer from "./playlistList.js";
 import * as userActions from "../redux/actions/user";
 import { connect } from "react-redux";
 
@@ -17,15 +17,15 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-class ConnectedHome extends React.Component {
+const mapStateToProps = state => {
+    return {
+        userId: state.users.userId
+    }
+}
+
+class HomeContainer extends React.Component {
     constructor(props) {
         super();
-
-        this.state = {
-            oAuthToken: Utils.getHashParams().access_token,
-            userId: "",
-            playlists: []
-        };
 
         props.updateOAuth(Utils.getHashParams().access_token);
     }
@@ -33,19 +33,22 @@ class ConnectedHome extends React.Component {
     componentDidMount() {
         UserProfile.getCurrentUsersProfile()
             .then((resp) => {
-                this.setState({ userId: resp.data.id });
                 this.props.updateUserId(resp.data.id);
             });
     }
 
     render() {
-        return (
-            <Grid>
-                <HomeHeader id={this.state.userId} />
-                <PlaylistLists />
-            </Grid>
-        );
+        return (<Home userId={this.props.userId} />);
     }
+}
+
+const Home = (props) => {
+    return (
+        <Grid>
+            <HomeHeader id={props.userId} />
+            <PlaylistListContainer />
+        </Grid>
+    );
 }
 
 const HomeHeader = (props) => {
@@ -54,5 +57,4 @@ const HomeHeader = (props) => {
     );
 }
 
-const Home = connect(null, mapDispatchToProps)(ConnectedHome);
-export default Home;
+export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);;

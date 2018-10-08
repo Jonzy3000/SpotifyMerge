@@ -2,7 +2,7 @@ import React from "react";
 import { FormGroup, Button, InputGroup, FormControl, Glyphicon, ListGroup, ListGroupItem } from "react-bootstrap";
 import { FullListOfPlaylists, Playlists } from "./../spotifyApi/requests/playlists.js"
 
-class PlaylistList extends React.Component {
+class PlaylistListContainer extends React.Component {
     constructor() {
         super();
 
@@ -26,22 +26,30 @@ class PlaylistList extends React.Component {
 
     render() {
         return (
-            <ListGroup>
-                <ListGroupItem onClick={() => this.toggleChildVisibility()}>
-                    <Glyphicon glyph="plus" /> Create New Playlist
-                    <div>
-                        <NewPlaylistModal isVisible={this.state.isChildVisible} />
-                    </div>
-                </ListGroupItem>
-                {this.state.playlists.map((playlist) => {
-                    return <ListGroupItem key={playlist.id} onClick={() => { }}>{playlist.name}</ListGroupItem>;
-                })}
-            </ListGroup>
+            <PlaylistList
+                toggleChildVisibility={() => { this.toggleChildVisibility() }}
+                isChildVisible={this.state.isChildVisible}
+                playlists={this.state.playlists}
+            />
         );
     }
 }
 
-class NewPlaylistModal extends React.Component {
+const PlaylistList = (props) =>
+    <ListGroup>
+        <ListGroupItem onClick={() => props.toggleChildVisibility()}>
+            <Glyphicon glyph="plus" /> Create New Playlist
+            <div>
+                <NewPlaylistModalContainer isVisible={props.isChildVisible} />
+            </div>
+        </ListGroupItem>
+        {props.playlists.map((playlist) => {
+            return <ListGroupItem key={playlist.id} onClick={() => { }}>{playlist.name}</ListGroupItem>;
+        })}
+    </ListGroup>
+
+
+class NewPlaylistModalContainer extends React.Component {
     constructor(props) {
         super();
 
@@ -52,8 +60,6 @@ class NewPlaylistModal extends React.Component {
             name: "",
             description: "",
         };
-
-        //this.playlistsRequests won't be made yet
     }
 
     componentWillReceiveProps(props) {
@@ -73,6 +79,19 @@ class NewPlaylistModal extends React.Component {
         this.createPlaylist();
     }
 
+    render() {
+        return (
+            <NewPlaylistModal
+                onNameChange={(name) => { this.setState({ name }) }}
+                onDescriptionChange={(description) => { this.setState({ description }) }}
+                onSuccessClick={() => { this.onSuccessClick() }}
+                isVisible={this.state.isVisible}
+            />
+        )
+    }
+}
+
+class NewPlaylistModal extends React.Component {
     visible() {
         return (
             <form onClick={(e) => {
@@ -83,7 +102,7 @@ class NewPlaylistModal extends React.Component {
                     <InputGroup>
                         <InputGroup.Addon>Name</InputGroup.Addon>
                         <FormControl
-                            onChange={(e) => this.setState({ name: e.target.value })}
+                            onChange={(e) => this.props.onNameChange(e.target.value)}
                             type="text"
                         />
                     </InputGroup>
@@ -95,7 +114,7 @@ class NewPlaylistModal extends React.Component {
                         <FormControl
                             componentClass="textarea"
                             placeholder="textarea"
-                            onChange={(e) => this.setState({ description: e.target.value })}
+                            onChange={(e) => this.props.onDescriptionChange(e.target.value)}
                         />
                     </InputGroup>
                 </FormGroup>
@@ -103,7 +122,7 @@ class NewPlaylistModal extends React.Component {
                 <FormGroup>
                     <Button
                         bsStyle="success"
-                        onClick={() => this.onSuccessClick()}
+                        onClick={() => this.props.onSuccessClick()}
                         block
                     >
                         <Glyphicon glyph="plus" /> Create Playlist
@@ -119,8 +138,10 @@ class NewPlaylistModal extends React.Component {
     }
 
     render() {
-        return this.state.isVisible ? this.visible() : this.notVisible();
+        return (
+            this.props.isVisible ? this.visible() : this.notVisible()
+        );
     }
 }
 
-export default PlaylistList;
+export default PlaylistListContainer;
