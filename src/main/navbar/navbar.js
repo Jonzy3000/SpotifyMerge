@@ -1,6 +1,6 @@
 import React from "react"
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Button } from "react-bootstrap";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import "./../../css/navbar.css";
 
 class NavComponent extends React.Component {
@@ -13,9 +13,11 @@ class NavComponent extends React.Component {
                     </NavItem>
                 </Nav>
                 <Navbar.Header>
-                    <Navbar.Brand>
-                        <a href="#brand">React-Bootstrap</a>
-                    </Navbar.Brand>
+                    <Link to="/">
+                        <Navbar.Brand>
+                            React-Bootstrap
+                        </Navbar.Brand>
+                    </Link>
                     <Navbar.Toggle />
                 </Navbar.Header>
                 <Navbar.Collapse>
