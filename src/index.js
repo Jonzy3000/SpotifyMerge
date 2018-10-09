@@ -5,8 +5,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./main/home.js";
 import { Provider } from "react-redux"
 import store from "./redux/store";
-import PlaylistContainer from "./main/playlist";
-
+import PlaylistContainer from "./main/containers/playlistContainer";
+import NavComponent from "./main/navbar/navbar";
 
 /**
  * TODO
@@ -19,12 +19,18 @@ import PlaylistContainer from "./main/playlist";
 
 ReactDOM.render(
   (<Provider store={store}>
-    <Router>
-      <Switch>
-        <Route exact path="/" component={LoginPageContainer} />
-        <Route path="/callback" component={Home} />
-        <Route path="/playlist" component={PlaylistContainer} />
-      </Switch>
-    </Router >
+    <div className="App">
+      <Router>
+        <div>
+          <NavComponent />
+          <Switch>
+            <Route exact path="/" component={LoginPageContainer} />
+            <Route path="/callback" component={Home} />
+            <Route path="/playlist" component={PlaylistContainer} />
+          </Switch>
+        </div>
+      </Router >
+    </div>
   </Provider>),
   document.getElementById("index"));
+

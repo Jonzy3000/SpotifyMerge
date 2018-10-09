@@ -2,7 +2,7 @@ import React from "react";
 import UserProfile from "./../spotifyApi/requests/userProfile.js"
 import Utils from "./../spotifyApi/utils.js"
 import { Grid, PageHeader } from "react-bootstrap";
-import PlaylistListContainer from "./playlistList.js";
+import PlaylistsContainer from "./containers/playlistsContainer";
 import * as userActions from "../redux/actions/user";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -47,7 +47,7 @@ const Home = (props) => {
     return (
         <Grid>
             <HomeHeader id={props.userId} />
-            <PlaylistListContainer />
+            <PlaylistsContainer />
         </Grid>
     );
 }
