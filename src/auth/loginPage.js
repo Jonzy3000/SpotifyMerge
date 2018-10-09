@@ -1,6 +1,7 @@
 import React from "react";
 import ImplicitGrant from "./implicitGrant.js";
 import { Grid, Button, PageHeader } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 class LoginPageContainer extends React.Component {
     constructor() {
@@ -26,5 +27,9 @@ const LoginPage = props =>
             <Button onClick={() => { props.handleLoginClick() }}>Login</Button>
         </div>
     </Grid>
+
+LoginPage.propTypes = {
+    handleLoginClick: PropTypes.func.isRequired,
+}
 
 export default LoginPageContainer

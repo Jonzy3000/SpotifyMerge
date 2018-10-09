@@ -1,6 +1,7 @@
 import React from "react";
 import Utils from "./../spotifyApi/utils";
 import { Playlists, FullListOfTracks } from "../spotifyApi/requests/playlists";
+import PropTypes from "prop-types";
 
 class PlaylistContainer extends React.Component {
     constructor(props) {
@@ -41,5 +42,16 @@ const Playlist = props =>
             return <h6 key={track.track.id}>{track.track.name}</h6>
         })}
     </div>
+
+Playlist.propTypes = {
+    name: PropTypes.string,
+    tracks: PropTypes.shape({
+        track: PropTypes.shape({
+            id: PropTypes.string,
+            name: PropTypes.string,
+            artists: PropTypes.arrayOf(PropTypes.string),
+        })
+    })
+}
 
 export default PlaylistContainer;

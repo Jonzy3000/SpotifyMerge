@@ -7,6 +7,16 @@ import { Provider } from "react-redux"
 import store from "./redux/store";
 import PlaylistContainer from "./main/playlist";
 
+
+/**
+ * TODO
+ * - NavBar and some navigation (back blah blah)
+ * - Requests for recommendation
+ *    - type ahead for songs/artists?
+ * - Re-login when session has expired and ability to log out
+ * - Saving token/saving state on refresh? 
+ */
+
 ReactDOM.render(
   (<Provider store={store}>
     <Router>

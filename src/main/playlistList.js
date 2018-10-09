@@ -2,6 +2,7 @@ import React from "react";
 import { FormGroup, Button, InputGroup, FormControl, Glyphicon, ListGroup, ListGroupItem } from "react-bootstrap";
 import { FullListOfPlaylists, Playlists } from "./../spotifyApi/requests/playlists.js"
 import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 
 class PlaylistListContainer extends React.Component {
     constructor() {
@@ -63,6 +64,11 @@ const PlaylistList = (props) =>
         })}
     </ListGroup>
 
+PlaylistList.propTypes = {
+    isChildVisible: PropTypes.bool,
+    onClick: PropTypes.func,
+    onSuccess: PropTypes.func
+}
 
 class NewPlaylistModalContainer extends React.Component {
     constructor(props) {
@@ -108,6 +114,12 @@ class NewPlaylistModalContainer extends React.Component {
             />
         )
     }
+}
+
+NewPlaylistModalContainer.propTypes = {
+    onSuccess: PropTypes.func,
+    onFail: PropTypes.func,
+    isVisible: PropTypes.bool,
 }
 
 class NewPlaylistModal extends React.Component {
@@ -161,6 +173,13 @@ class NewPlaylistModal extends React.Component {
             this.props.isVisible ? this.visible() : this.notVisible()
         );
     }
+}
+
+NewPlaylistModal.propTypes = {
+    onNameChange: PropTypes.func,
+    onDescriptionChange: PropTypes.func,
+    onSuccessClick: PropTypes.func,
+    isVisible: PropTypes.bool
 }
 
 export default withRouter(PlaylistListContainer);

@@ -5,6 +5,7 @@ import { Grid, PageHeader } from "react-bootstrap";
 import PlaylistListContainer from "./playlistList.js";
 import * as userActions from "../redux/actions/user";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -51,10 +52,18 @@ const Home = (props) => {
     );
 }
 
+Home.propTypes = {
+    userId: PropTypes.string,
+}
+
 const HomeHeader = (props) => {
     return (
         <PageHeader>Hello, {props.id}  </PageHeader>
     );
+}
+
+HomeHeader.propTypes = {
+    id: PropTypes.string,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);;
