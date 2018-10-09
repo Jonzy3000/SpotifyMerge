@@ -7,6 +7,7 @@ import { Provider } from "react-redux"
 import store from "./redux/store";
 import PlaylistContainer from "./main/containers/playlistContainer";
 import NavComponent from "./main/navbar/navbar";
+import LoginWindow from "./auth/loginWindow";
 
 /**
  * TODO
@@ -25,8 +26,9 @@ ReactDOM.render(
           <NavComponent />
           <Switch>
             <Route exact path="/" component={LoginPageContainer} />
-            <Route path="/callback" component={Home} />
+            <Route path="/callback" component={LoginWindow} />
             <Route path="/playlist" component={PlaylistContainer} />
+            <Route path="/playlists" component={Home} />
           </Switch>
         </div>
       </Router >

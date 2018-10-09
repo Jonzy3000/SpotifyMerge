@@ -2,6 +2,8 @@
  * https://github.com/jonnyk20/spotify-node-react-starter-kit/blob/master/auth-server/implicit_grant/public/index.html
  */
 
+import store from "../redux/store";
+import { updateOAuthToken } from "../redux/actions/user";
 
 class ImplicitGrant {
     constructor() {
@@ -54,7 +56,23 @@ class ImplicitGrant {
         url += '&redirect_uri=' + encodeURIComponent(redirect_uri);
         url += '&state=' + encodeURIComponent(state);
 
-        window.location = url;
+        return new Promise((resolve, reject) => {
+            window.open(
+                url,
+                'Spotify',
+                'menubar=no,location=no,resizable=yes,scrollbars=yes,status=no,width=400,height=500'
+            );
+
+            window.addEventListener('storage', (data) => {
+                if (data.key === 'magic_token') {
+                    store.dispatch(
+                        updateOAuthToken(data.newValue)
+                    );
+
+                    resolve();
+                }
+            });
+        });
     }
 };
 

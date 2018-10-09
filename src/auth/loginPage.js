@@ -2,15 +2,18 @@ import React from "react";
 import ImplicitGrant from "./implicitGrant.js";
 import { Grid, Button, PageHeader } from "react-bootstrap";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 
 class LoginPageContainer extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.grant = new ImplicitGrant();
     }
 
     handleLoginClick() {
-        this.grant.login();
+        this.grant.login().then(() => {
+            this.props.history.push("/playlists");
+        });
     }
 
     render() {
@@ -32,4 +35,4 @@ LoginPage.propTypes = {
     handleLoginClick: PropTypes.func.isRequired,
 }
 
-export default LoginPageContainer
+export default withRouter(LoginPageContainer);

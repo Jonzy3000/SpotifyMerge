@@ -27,8 +27,6 @@ const mapStateToProps = state => {
 class HomeContainer extends React.Component {
     constructor(props) {
         super();
-
-        props.updateOAuth(Utils.getHashParams().access_token);
     }
 
     componentDidMount() {
@@ -46,7 +44,7 @@ class HomeContainer extends React.Component {
 const Home = (props) => {
     return (
         <Grid>
-            <HomeHeader id={props.userId} />
+             <PageHeader>Hello, {props.userId}  </PageHeader>
             <PlaylistsContainer />
         </Grid>
     );
@@ -54,16 +52,6 @@ const Home = (props) => {
 
 Home.propTypes = {
     userId: PropTypes.string,
-}
-
-const HomeHeader = (props) => {
-    return (
-        <PageHeader>Hello, {props.id}  </PageHeader>
-    );
-}
-
-HomeHeader.propTypes = {
-    id: PropTypes.string,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);;
