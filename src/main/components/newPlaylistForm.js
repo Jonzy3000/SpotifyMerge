@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {FormControl, FormGroup, InputGroup} from "react-bootstrap";
+import {FormControl, FormGroup, InputGroup, Button, Glyphicon} from "react-bootstrap";
 
 class NewPlaylistForm extends React.Component {
     visible() {
