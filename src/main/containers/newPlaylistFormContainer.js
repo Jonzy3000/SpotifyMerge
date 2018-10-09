@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Playlists from "../../spotifyApi/requests/playlists";
+import { Playlists } from "../../spotifyApi/requests/playlists";
 import NewPlaylistForm from "../components/newPlaylistForm";
 
 class NewPlaylistFormContainer extends React.Component {
