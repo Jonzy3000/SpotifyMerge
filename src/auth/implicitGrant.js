@@ -64,7 +64,7 @@ class ImplicitGrant {
             );
 
             window.addEventListener('storage', (data) => {
-                if (data.key === 'magic_token') {
+                if (data.key === 'token') {
                     store.dispatch(
                         updateOAuthToken(data.newValue)
                     );

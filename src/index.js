@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import LoginPageContainer from "./auth/loginPage.js";
+
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./main/home.js";
 import { Provider } from "react-redux"
@@ -25,7 +25,7 @@ ReactDOM.render(
         <div>
           <NavComponent />
           <Switch>
-            <Route exact path="/" component={LoginPageContainer} />
+            {/* <Route exact path="/" component={LoginPageContainer} /> */}
             <Route path="/callback" component={LoginWindow} />
             <Route path="/playlist" component={PlaylistContainer} />
             <Route path="/playlists" component={Home} />

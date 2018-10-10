@@ -2,6 +2,7 @@ import React from "react"
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Button } from "react-bootstrap";
 import { withRouter, Link } from "react-router-dom";
 import "./../../css/navbar.css";
+import LoginComponentContainer from "../../auth/loginComponent";
 
 class NavComponent extends React.Component {
     render() {
@@ -9,7 +10,7 @@ class NavComponent extends React.Component {
             <Navbar collapseOnSelect staticTop fluid>
                 <Nav>
                     <NavItem eventKey={0} >
-                        Test
+                        <LoginComponentContainer />
                     </NavItem>
                 </Nav>
                 <Navbar.Header>

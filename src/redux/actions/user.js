@@ -8,4 +8,8 @@ export const updateOAuthToken = token => ({
 export const updateUserId = userId => ({
     type: actionTypes.UPDATE_USER_ID,
     payload: userId
-})
+});
+
+export const logOut = () => ({
+    type: actionTypes.LOG_OUT
+});
