@@ -120,6 +120,16 @@ class Playlists {
                 }
             });
     }
+
+    static addTracksToPlayList(playlistId, tracks) {
+        return axios.post(`${PLAYLIST_URL}/${playlistId}`, {
+            uris: tracks,
+        }, {
+                headers: {
+                    "Authorization": "Bearer " + store.getState().users.oAuthToken
+                }
+            });
+    }
 }
 
 export {

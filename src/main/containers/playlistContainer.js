@@ -2,6 +2,7 @@ import React from "react";
 import Utils from "./../../spotifyApi/utils";
 import { Playlists, FullListOfTracks } from "../../spotifyApi/requests/playlists";
 import Playlist from "../components/playlist";
+import SearchContainer from "./searchContainers/searchContainer";
 
 class PlaylistContainer extends React.Component {
     constructor(props) {
@@ -29,7 +30,10 @@ class PlaylistContainer extends React.Component {
 
     render() {
         return (
-            <Playlist name={this.state.name} tracks={this.state.tracks} />
+            <React.Fragment>
+                <Playlist name={this.state.name} tracks={this.state.tracks} />
+                <SearchContainer />
+            </React.Fragment>
         );
     }
 }
