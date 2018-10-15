@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from "@material-ui/icons/Search"
-import Select from 'react-select';
+import AsyncSelect from 'react-select/lib/Async';
 import Typography from '@material-ui/core/Typography';
 import NoSsr from '@material-ui/core/NoSsr';
 import Paper from '@material-ui/core/Paper';
@@ -159,6 +159,18 @@ const groupBadgeStyles = {
     textAlign: 'center',
 };
 
+const LoadingMessage = props => {
+    return (
+        <Typography
+            color="textSecondary"
+            className={props.selectProps.classes.noOptionsMessage}
+            {...props.innerProps}
+        >
+            {props.children}
+        </Typography>
+    );
+}
+
 const formatGroupLabel = data => (
     <div style={groupStyles}>
         <Typography
@@ -180,15 +192,16 @@ const components = {
     NoOptionsMessage,
     Option,
     ValueContainer,
+    LoadingMessage
 };
 
 
 const MultiChipTypeaheadSearchBox = props => {
-    const { classes, onSelectionChange, onInputChange, suggestions, value } = props;
+    const { classes, onSelectionChange, onLoadSuggestions, value } = props;
     return (
         <div>
             <NoSsr>
-                <Select
+                <AsyncSelect
                     classes={classes}
                     components={components}
                     textFieldProps={{
@@ -198,10 +211,11 @@ const MultiChipTypeaheadSearchBox = props => {
                             shrink: true,
                         },
                     }}
-                    options={suggestions}
+                    loadOptions={onLoadSuggestions}
                     value={value}
                     onChange={onSelectionChange}
-                    onInputChange={onInputChange}
+                    cacheOptions
+                    defaultOptions
                     placeholder="Type a song or artist"
                     isMulti
                     formatGroupLabel={formatGroupLabel}

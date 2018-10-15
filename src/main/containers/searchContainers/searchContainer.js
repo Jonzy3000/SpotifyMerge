@@ -2,48 +2,7 @@ import React, { Component } from 'react'
 import Search from "../../../spotifyApi/requests/search";
 import { RecommendationApi, RecommendationQueryParamsFactory } from "../../../spotifyApi/requests/recommendations";
 import MultiChipTypeaheadSearchBox from "../../components/searchComponents/multiChipTypeaheadSearchBox"
-
-
-
-// const suggestions = [
-//     { label: 'Afghanistan' },
-//     { label: 'Aland Islands' },
-//     { label: 'Albania' },
-//     { label: 'Algeria' },
-//     { label: 'American Samoa' },
-//     { label: 'Andorra' },
-//     { label: 'Angola' },
-//     { label: 'Anguilla' },
-//     { label: 'Antarctica' },
-//     { label: 'Antigua and Barbuda' },
-//     { label: 'Argentina' },
-//     { label: 'Armenia' },
-//     { label: 'Aruba' },
-//     { label: 'Australia' },
-//     { label: 'Austria' },
-//     { label: 'Azerbaijan' },
-//     { label: 'Bahamas' },
-//     { label: 'Bahrain' },
-//     { label: 'Bangladesh' },
-//     { label: 'Barbados' },
-//     { label: 'Belarus' },
-//     { label: 'Belgium' },
-//     { label: 'Belize' },
-//     { label: 'Benin' },
-//     { label: 'Bermuda' },
-//     { label: 'Bhutan' },
-//     { label: 'Bolivia, Plurinational State of' },
-//     { label: 'Bonaire, Sint Eustatius and Saba' },
-//     { label: 'Bosnia and Herzegovina' },
-//     { label: 'Botswana' },
-//     { label: 'Bouvet Island' },
-//     { label: 'Brazil' },
-//     { label: 'British Indian Ocean Territory' },
-//     { label: 'Brunei Darussalam' },
-// ].map(suggestion => ({
-//     value: suggestion.label,
-//     label: suggestion.label,
-// }));
+import Button from '@material-ui/core/Button';
 
 class SearchContainer extends Component {
     constructor(props) {
@@ -51,9 +10,7 @@ class SearchContainer extends Component {
 
         this.state = {
             searchQuery: "",
-            artists: [],
-            tracks: [],
-            multi: null,
+            selectedItems: null,
             suggestions: [],
         }
 
@@ -63,7 +20,7 @@ class SearchContainer extends Component {
 
     handleChange(value) {
         this.setState({
-            multi: value,
+            selectedItems: value,
         });
     }
 
@@ -72,29 +29,26 @@ class SearchContainer extends Component {
         return artistsName.join(", ");
     }
 
-    createSuggestions() {
-        const artistsForSuggestions = this.state.artists.map(({ id, name }) =>
-            ({ value: id, label: name })
+    createSuggestions(data) {
+        const artistsForSuggestions = data.artists.items.map(({ id, name }) =>
+            ({ value: id, label: name, isArtist: true })
         )
 
-        const tracksForSuggestions = this.state.tracks.map(({ id, name, artists }) => ({
-            value: id, label: `${name} - ${this.formatArtists(artists)}`
+        const tracksForSuggestions = data.tracks.items.map(({ id, name, artists }) => ({
+            value: id, label: `${name} - ${this.formatArtists(artists)}`,
+            isArtist: false,
         }));
 
-        this.setState(() => {
-            return {
-                suggestions: [
-                    {
-                        label: "Artists",
-                        options: artistsForSuggestions
-                    },
-                    {
-                        label: "Tracks",
-                        options: tracksForSuggestions
-                    }
-                ]
+        return [
+            {
+                label: "Artists",
+                options: artistsForSuggestions
+            },
+            {
+                label: "Tracks",
+                options: tracksForSuggestions
             }
-        })
+        ];
     }
 
     onSearchChange(str) {
@@ -109,16 +63,9 @@ class SearchContainer extends Component {
             return;
         }
 
-        Search.searchForTracksAndArtists(str, 6).then(({ data }) => {
+        return Search.searchForTracksAndArtists(str, 6).then(({ data }) => {
             console.log(data);
-            this.setState(() => {
-                return {
-                    artists: data.artists.items,
-                    tracks: data.tracks.items
-                }
-            });
-
-            this.createSuggestions();
+            return this.createSuggestions(data);
             // if (data.artists.items.length > 1) {
             //     const params = RecommendationQueryParamsFactory.getRecommendationQueryParams();
             //     params.seed_artists = data.artists.items[0].id;
@@ -126,6 +73,18 @@ class SearchContainer extends Component {
             //         console.log(resp.data.tracks);
             //     })
             // }
+        });
+    }
+
+    createPlaylist() {
+        let artist_ids = this.state.selectedItems.filter(item => item.isArtist).map(({ value }) => value);
+        let track_ids = this.state.selectedItems.filter(item => !item.isArtist).map(({ value }) => value);
+
+        const params = RecommendationQueryParamsFactory.getRecommendationQueryParams();
+        params.seed_artists = artist_ids.join(",");
+        params.seed_tracks = track_ids.join(",");
+        RecommendationApi.something(params).then((resp) => {
+            console.log(resp.data.tracks);
         })
     }
 
@@ -135,48 +94,12 @@ class SearchContainer extends Component {
             <div  >
                 <MultiChipTypeaheadSearchBox
                     onSelectionChange={this.handleChange}
-                    onInputChange={this.onSearchChange}
-                    suggestions={this.state.suggestions}
+                    onLoadSuggestions={this.onSearchChange}
                     value={this.state.multi}
                 />
-                {/* <form autoComplete="off">
-                    <TextField
-                        fullWidth
-                        placeholder="Type a song or artist"
-                        variant="outlined"
-                        label="Search"
-                        onChange={(e) => this.onSearchChange(e.target.value)}
-                        InputProps={{
-                            startAdornment:
-                                <InputAdornment position="start">
-                                    <IconButton>
-                                        <SearchIcon />
-                                    </IconButton>
-                                </InputAdornment>
-                        }}>
-
-                    </TextField>
-                </form> */}
-                {
-
-                    /* <FormGroup controlId="name" bsSize="small">
-                    <InputGroup>
-                        <InputGroup.Addon>Search</InputGroup.Addon>
-                        <FormControl
-                            onChange={(e) => this.onSearchChange(e.target.value)}
-                            type="text"
-                        />
-                        <FormControl componentClass="select">
-                            {this.state.artists.map((artist) =>
-                                <option value={artist.id} key={artist.id}>{artist.name}</option>
-                            )}
-                            {this.state.tracks.map((track) =>
-                                <option value={track.id} key={track.id}>{track.name}</option>
-                            )}
-                            <option value="other">...</option>
-                        </FormControl>
-                    </InputGroup>
-                </FormGroup> */}
+                <Button variant="contained" color="primary" onClick={() => { this.createPlaylist() }}>
+                    Create Playlist
+                </Button>
             </div >
         )
     }
