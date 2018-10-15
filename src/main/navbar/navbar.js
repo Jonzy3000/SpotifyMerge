@@ -1,54 +1,47 @@
 import React from "react"
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Button } from "react-bootstrap";
 import { withRouter, Link } from "react-router-dom";
 import "./../../css/navbar.css";
 import LoginComponentContainer from "../../auth/loginComponent";
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+
+const styles = {
+    root: {
+        flexGrow: 1,
+    },
+    grow: {
+        flexGrow: 1,
+    },
+    menuButton: {
+        marginLeft: -12,
+        marginRight: 20,
+    },
+};
 
 class NavComponent extends React.Component {
     render() {
+        const { classes } = this.props;
         return (
-            <Navbar collapseOnSelect staticTop fluid>
-                <Nav>
-                    <NavItem eventKey={0} >
+            <div className={classes.root}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography variant="h6" color="inherit" className={classes.grow}>
+                            News
+                        </Typography>
                         <LoginComponentContainer />
-                    </NavItem>
-                </Nav>
-                <Navbar.Header>
-                    <Link to="/">
-                        <Navbar.Brand>
-                            React-Bootstrap
-                        </Navbar.Brand>
-                    </Link>
-                    <Navbar.Toggle />
-                </Navbar.Header>
-                <Navbar.Collapse>
-                    <Nav>
-                        <NavItem eventKey={1} href="#">
-                            Link
-                        </NavItem>
-                        <NavItem eventKey={2} href="#">
-                            Link
-                        </NavItem>
-                        <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-                            <MenuItem eventKey={3.1}>Action</MenuItem>
-                            <MenuItem eventKey={3.2}>Another action</MenuItem>
-                            <MenuItem eventKey={3.3}>Something else here</MenuItem>
-                            <MenuItem divider />
-                            <MenuItem eventKey={3.3}>Separated link</MenuItem>
-                        </NavDropdown>
-                    </Nav>
-                    <Nav pullRight>
-                        <NavItem eventKey={1} href="#">
-                            Link Right
-                        </NavItem>
-                        <NavItem eventKey={2} href="#">
-                            Link Right
-                    </NavItem>
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>
+                    </Toolbar>
+                </AppBar>
+            </div>
         );
     }
 }
 
-export default withRouter(NavComponent);
+export default withRouter(withStyles(styles)(NavComponent));

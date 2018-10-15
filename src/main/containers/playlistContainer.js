@@ -1,7 +1,7 @@
 import React from "react";
 import Utils from "./../../spotifyApi/utils";
 import { Playlists, FullListOfTracks } from "../../spotifyApi/requests/playlists";
-import Playlist from "../components/playlist";
+import { PlaylistWithStyles, PlaylistTitle } from "../components/playlist";
 import SearchContainer from "./searchContainers/searchContainer";
 
 class PlaylistContainer extends React.Component {
@@ -31,8 +31,9 @@ class PlaylistContainer extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Playlist name={this.state.name} tracks={this.state.tracks} />
+                <PlaylistTitle name={this.state.name} />
                 <SearchContainer />
+                <PlaylistWithStyles name={this.state.name} tracks={this.state.tracks} />
             </React.Fragment>
         );
     }

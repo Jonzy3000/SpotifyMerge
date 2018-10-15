@@ -1,11 +1,11 @@
 import React from "react";
 import ImplicitGrant from "./implicitGrant.js";
-import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import UserProfile from "../spotifyApi/requests/userProfile.js";
 import * as userActions from "../redux/actions/user";
+import Button from '@material-ui/core/Button';
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -46,7 +46,7 @@ class LoginButtonContainer extends React.Component {
 
 const LoginButton = props =>
     <React.Fragment>
-        <Button onClick={() => { props.handleLoginClick() }}>Login</Button>
+        <Button color="inherit" onClick={() => { props.handleLoginClick() }}>Login Yo</Button>
     </React.Fragment>
 
 LoginButtonContainer.propTypes = {

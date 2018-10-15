@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {FormControl, FormGroup, InputGroup, Button, Glyphicon} from "react-bootstrap";
 
 class NewPlaylistForm extends React.Component {
     visible() {
@@ -9,7 +8,7 @@ class NewPlaylistForm extends React.Component {
                 e.stopPropagation();
             }}>
                 <hr />
-                <FormGroup controlId="name" bsSize="small">
+                {/* <FormGroup controlId="name" bsSize="small">
                     <InputGroup>
                         <InputGroup.Addon>Name</InputGroup.Addon>
                         <FormControl
@@ -38,7 +37,7 @@ class NewPlaylistForm extends React.Component {
                     >
                         <Glyphicon glyph="plus" /> Create Playlist
                     </Button>
-                </FormGroup>
+                </FormGroup> */}
             </form >
         );
     }

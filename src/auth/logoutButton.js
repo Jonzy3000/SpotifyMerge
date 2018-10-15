@@ -1,8 +1,9 @@
 import React from 'react'
-import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import * as userActions from "../redux/actions/user";
 import { withRouter } from "react-router-dom";
+import IconButton from '@material-ui/core/IconButton';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -33,11 +34,14 @@ class LogoutButtonContainer extends React.Component {
 const LogoutButton = props => {
     return (
         <React.Fragment>
-            <Button onClick={() => {
-                props.onLogOut();
-            }}>Logout</Button>
+
+            <IconButton color="inherit" onClick={() => { props.onLogOut(); }}>
+                <AccountCircle />
+            </IconButton>
         </React.Fragment>
     )
 }
+
+//** */
 
 export default connect(null, mapDispatchToProps)(withRouter(LogoutButtonContainer));

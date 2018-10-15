@@ -1,6 +1,5 @@
 import React from "react";
 
-import { Grid, PageHeader } from "react-bootstrap";
 import PlaylistsContainer from "./containers/playlistsContainer";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -23,10 +22,14 @@ class HomeContainer extends React.Component {
 
 const Home = (props) => {
     return (
-        <Grid>
-             <PageHeader>Hello, {props.userId}  </PageHeader>
+        <React.Fragment>
+            <h1>Hello, {props.userId}</h1>
             <PlaylistsContainer />
-        </Grid>
+        </React.Fragment>
+        // <Grid>
+        //      <PageHeader>Hello, {props.userId}  </PageHeader>
+        //     <PlaylistsContainer />
+        // </Grid>
     );
 }
 

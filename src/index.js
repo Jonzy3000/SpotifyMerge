@@ -8,6 +8,8 @@ import store from "./redux/store";
 import PlaylistContainer from "./main/containers/playlistContainer";
 import NavComponent from "./main/navbar/navbar";
 import LoginWindow from "./auth/loginWindow";
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 /**
  * TODO
@@ -18,18 +20,28 @@ import LoginWindow from "./auth/loginWindow";
  * - Saving token/saving state on refresh? 
  */
 
+// https://material-ui.com/style/typography/#migration-to-typography-v2
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
+});
+
 ReactDOM.render(
   (<Provider store={store}>
     <div className="App">
+      <CssBaseline />
       <Router>
         <div>
-          <NavComponent />
-          <Switch>
-            {/* <Route exact path="/" component={LoginPageContainer} /> */}
-            <Route path="/callback" component={LoginWindow} />
-            <Route path="/playlist" component={PlaylistContainer} />
-            <Route path="/playlists" component={Home} />
-          </Switch>
+          <MuiThemeProvider theme={theme}>
+            <NavComponent />
+            <Switch>
+              {/* <Route exact path="/" component={LoginPageContainer} /> */}
+              <Route path="/callback" component={LoginWindow} />
+              <Route path="/playlist" component={PlaylistContainer} />
+              <Route path="/playlists" component={Home} />
+            </Switch>
+          </MuiThemeProvider>
         </div>
       </Router >
     </div>

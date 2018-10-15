@@ -5,12 +5,16 @@ import store from "./../../redux/store";
 const SEARCH_URL = `${Utils.SPOTIFY_URL}/search`;
 
 class Search {
-    static searchForTracksAndArtists(str) {
+    static searchForTracksAndArtists(str, limit) {
+        if (str == "") {
+            return;
+        }
+
         return Axios.get(SEARCH_URL, {
             params: {
                 q: str,
                 type: "artist,track",
-                limit: 4
+                limit: Number(limit)
             },
             headers: {
                 "Authorization": "Bearer " + store.getState().users.oAuthToken
