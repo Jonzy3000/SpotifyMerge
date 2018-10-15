@@ -55,8 +55,6 @@ const Playlist = props =>
                     </TableBody>
                 </Table>
             </Paper>
-            //     props.tracks.map((track) => {
-            // return <h6 key={track.track.id}>{track.track.name}</h6>
         }
     </div>
 
