@@ -3,6 +3,7 @@ import Utils from "./../../spotifyApi/utils";
 import { Playlists, FullListOfTracks } from "../../spotifyApi/requests/playlists";
 import { PlaylistWithStyles, PlaylistTitle } from "../components/playlist";
 import SearchContainer from "./searchContainers/searchContainer";
+import "../../css/main.css"
 
 class PlaylistContainer extends React.Component {
     constructor(props) {

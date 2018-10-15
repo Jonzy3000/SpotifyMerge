@@ -3,6 +3,7 @@ import { FullListOfPlaylists } from "./../../spotifyApi/requests/playlists.js"
 import Playlists from "../components/playlists";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import "../../css/main.css"
 
 class PlaylistsContainer extends React.Component {
     constructor() {
