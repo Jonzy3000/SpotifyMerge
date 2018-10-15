@@ -122,7 +122,7 @@ class Playlists {
     }
 
     static addTracksToPlayList(playlistId, tracks) {
-        return axios.post(`${PLAYLIST_URL}/${playlistId}`, {
+        return axios.post(`${PLAYLIST_URL}/${playlistId}/tracks`, {
             uris: tracks,
         }, {
                 headers: {
