@@ -2,6 +2,7 @@ import React from "react";
 import { FullListOfPlaylists } from "./../../spotifyApi/requests/playlists.js"
 import Playlists from "../components/playlists";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 class PlaylistsContainer extends React.Component {
     constructor() {
@@ -31,15 +32,25 @@ class PlaylistsContainer extends React.Component {
 
     render() {
         return (
-            <Playlists
-                toggleChildVisibility={() => { this.toggleChildVisibility() }}
-                isChildVisible={this.state.isChildVisible}
-                playlists={this.state.playlists}
-                onClick={(id) => { this.goToPlaylist(id) }}
-                onSuccess={(id) => { this.goToPlaylist(id) }}
-            />
+            <div className="container">
+                <h1>Hello, {this.props.userId}</h1>
+
+                <Playlists
+                    toggleChildVisibility={() => { this.toggleChildVisibility() }}
+                    isChildVisible={this.state.isChildVisible}
+                    playlists={this.state.playlists}
+                    onClick={(id) => { this.goToPlaylist(id) }}
+                    onSuccess={(id) => { this.goToPlaylist(id) }}
+                />
+            </div>
         );
     }
 }
 
-export default withRouter(PlaylistsContainer);
+const mapStateToProps = state => {
+    return {
+        userId: state.users.userId
+    }
+}
+
+export default connect(mapStateToProps)(withRouter(PlaylistsContainer));

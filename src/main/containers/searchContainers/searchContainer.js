@@ -3,6 +3,11 @@ import Search from "../../../spotifyApi/requests/search";
 import { RecommendationApi, RecommendationQueryParamsFactory } from "../../../spotifyApi/requests/recommendations";
 import MultiChipTypeaheadSearchBox from "../../components/searchComponents/multiChipTypeaheadSearchBox"
 import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import { Playlists } from "../../../spotifyApi/requests/playlists";
 
 class SearchContainer extends Component {
     constructor(props) {
@@ -12,6 +17,7 @@ class SearchContainer extends Component {
             searchQuery: "",
             selectedItems: null,
             suggestions: [],
+            recommendations: [],
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -66,13 +72,6 @@ class SearchContainer extends Component {
         return Search.searchForTracksAndArtists(str, 6).then(({ data }) => {
             console.log(data);
             return this.createSuggestions(data);
-            // if (data.artists.items.length > 1) {
-            //     const params = RecommendationQueryParamsFactory.getRecommendationQueryParams();
-            //     params.seed_artists = data.artists.items[0].id;
-            //     RecommendationApi.something(params).then((resp) => {
-            //         console.log(resp.data.tracks);
-            //     })
-            // }
         });
     }
 
@@ -84,8 +83,15 @@ class SearchContainer extends Component {
         params.seed_artists = artist_ids.join(",");
         params.seed_tracks = track_ids.join(",");
         RecommendationApi.something(params).then((resp) => {
+            this.setState(
+                { recommendations: resp.data.tracks }
+            );
             console.log(resp.data.tracks);
         })
+    }
+
+    addToPlaylist() {
+        Playlists.addTracksToPlayList("6KcypTTZwgGbEh2TXdmHK6", this.state.recommendations.map(({ uri }) => uri));
     }
 
     render() {
@@ -100,6 +106,23 @@ class SearchContainer extends Component {
                 <Button variant="contained" color="primary" onClick={() => { this.createPlaylist() }}>
                     Create Playlist
                 </Button>
+                {this.state.recommendations.length > 0 ?
+                    <React.Fragment>
+                        <Button variant="contained" color="secondary" onClick={() => this.addToPlaylist()}>
+                            Add To Playlist
+                        </Button>
+                        <List>
+                            {this.state.recommendations.map(track =>
+                                <React.Fragment>
+                                    <ListItem dense>
+                                        <ListItemText primary={track.name} secondary={this.formatArtists(track.artists)} />
+                                    </ListItem>
+                                    <Divider />
+                                </React.Fragment>
+                            )}
+                        </List>
+                    </React.Fragment>
+                    : null}
             </div >
         )
     }

@@ -30,11 +30,11 @@ class PlaylistContainer extends React.Component {
 
     render() {
         return (
-            <React.Fragment>
+            <div className="container">
                 <PlaylistTitle name={this.state.name} />
                 <SearchContainer />
                 <PlaylistWithStyles name={this.state.name} tracks={this.state.tracks} />
-            </React.Fragment>
+            </div>
         );
     }
 }

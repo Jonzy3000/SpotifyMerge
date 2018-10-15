@@ -10,6 +10,7 @@ import NavComponent from "./main/navbar/navbar";
 import LoginWindow from "./auth/loginWindow";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import "../src/css/main.css"
 
 /**
  * TODO
