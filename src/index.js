@@ -10,6 +10,8 @@ import NavComponent from "./main/navbar/navbar";
 import LoginWindow from "./auth/loginWindow";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import purple from '@material-ui/core/colors/purple';
+import PlaylistsContainer from "./main/containers/playlistsContainer"
 
 /**
  * TODO
@@ -25,10 +27,12 @@ const theme = createMuiTheme({
     typography: {
         useNextVariants: true,
     },
-    // palette: {
-    //     primary: { main: '#80DEEA' },
-    //     secondary: { main: '#F06292' }
-    // }
+    palette: {
+        primary: purple,
+        secondary: {
+            main: '#f44336',
+        },
+    }
 });
 
 ReactDOM.render(
@@ -40,10 +44,10 @@ ReactDOM.render(
                     <MuiThemeProvider theme={theme}>
                         <NavComponent />
                         <Switch>
-                            {/* <Route exact path="/" component={LoginPageContainer} /> */}
+                            <Route exact path="/" component={Home} />
                             <Route path="/callback" component={LoginWindow} />
                             <Route path="/playlist" component={PlaylistContainer} />
-                            <Route path="/playlists" component={Home} />
+                            <Route path="/playlists" component={PlaylistsContainer} />
                         </Switch>
                     </MuiThemeProvider>
                 </div>

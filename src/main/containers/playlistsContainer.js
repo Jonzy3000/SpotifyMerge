@@ -4,6 +4,7 @@ import Playlists from "../components/playlists";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import "../../css/main.css"
+import Typography from "@material-ui/core/Typography";
 
 class PlaylistsContainer extends React.Component {
     constructor() {
@@ -15,12 +16,22 @@ class PlaylistsContainer extends React.Component {
         }
     }
 
-    componentDidMount() {
+    fetchPlaylistData() {
         FullListOfPlaylists.getFullListOfUsersPlaylists()
             .then((resp) => {
                 console.log(resp);
                 this.setState({ playlists: resp });
             });
+    }
+
+    componentDidMount() {
+        this.fetchPlaylistData();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.userId !== prevProps.userId) {
+            this.fetchPlaylistData();
+        }
     }
 
     toggleChildVisibility() {
@@ -33,9 +44,10 @@ class PlaylistsContainer extends React.Component {
 
     render() {
         return (
-            <div className="container">
-                <h1>Hello, {this.props.userId}</h1>
-
+            <div className="container" style={{ marginTop: 25 }}>
+                <Typography color="textSecondary" variant="h3" gutterBottom>
+                    Hello, {this.props.userId}
+                </Typography>
                 <Playlists
                     toggleChildVisibility={() => { this.toggleChildVisibility() }}
                     isChildVisible={this.state.isChildVisible}

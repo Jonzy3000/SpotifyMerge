@@ -39,14 +39,14 @@ class LoginButtonContainer extends React.Component {
 
     render() {
         return (
-            <LoginButton handleLoginClick={() => { this.handleLoginClick() }} />
+            <LoginButton buttonProps={this.props.buttonProps} handleLoginClick={() => { this.handleLoginClick() }} />
         );
     }
 }
 
 const LoginButton = props =>
     <React.Fragment>
-        <Button color="inherit" onClick={() => { props.handleLoginClick() }}>Login Yo</Button>
+        <Button color="inherit" {...props.buttonProps} onClick={() => { props.handleLoginClick() }}>Login Yo</Button>
     </React.Fragment>
 
 LoginButtonContainer.propTypes = {

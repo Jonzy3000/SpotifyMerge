@@ -4,6 +4,7 @@ import { Playlists, FullListOfTracks } from "../../spotifyApi/requests/playlists
 import { PlaylistWithStyles, PlaylistTitle } from "../components/playlist";
 import SearchContainer from "./searchContainers/searchContainer";
 import "../../css/main.css"
+import { connect } from "react-redux";
 
 class PlaylistContainer extends React.Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class PlaylistContainer extends React.Component {
         }
     }
 
-    componentDidMount() {
+    fetchDataAndUpdate() {
         Playlists.getPlaylist(this.state.playlistId)
             .then((resp) => {
                 const { name } = resp.data;
@@ -27,6 +28,16 @@ class PlaylistContainer extends React.Component {
             .then((tracks) => {
                 this.setState({ tracks });
             });
+    }
+
+    componentDidMount() {
+        this.fetchDataAndUpdate();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.userId !== prevProps.userId) {
+            this.fetchDataAndUpdate();
+        }
     }
 
     render() {
@@ -40,4 +51,10 @@ class PlaylistContainer extends React.Component {
     }
 }
 
-export default PlaylistContainer;
+const mapStateToProps = state => {
+    return {
+        userId: state.users.userId
+    }
+}
+
+export default connect(mapStateToProps)(PlaylistContainer);

@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import Search from "../../../spotifyApi/requests/search";
-import { RecommendationApi, RecommendationQueryParamsFactory } from "../../../spotifyApi/requests/recommendations";
-import MultiChipTypeaheadSearchBox from "../../components/searchComponents/multiChipTypeaheadSearchBox"
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
+import React, { Component } from 'react';
 import { Playlists } from "../../../spotifyApi/requests/playlists";
+import { RecommendationApi, RecommendationQueryParamsFactory } from "../../../spotifyApi/requests/recommendations";
+import Search from "../../../spotifyApi/requests/search";
+import MultiChipTypeaheadSearchBox from "../../components/searchComponents/multiChipTypeaheadSearchBox";
 
 class SearchContainer extends Component {
     constructor(props) {
