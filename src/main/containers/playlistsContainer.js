@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import "../../css/main.css"
 import Typography from "@material-ui/core/Typography";
+import NewPlaylistDialogContainer from "./newPlaylistDialogContainer"
 
 class PlaylistsContainer extends React.Component {
     constructor() {
@@ -47,6 +48,10 @@ class PlaylistsContainer extends React.Component {
             <div className="container" style={{ marginTop: 25 }}>
                 <Typography color="textSecondary" variant="h3" gutterBottom>
                     Hello, {this.props.userId}
+                </Typography>
+                <NewPlaylistDialogContainer />
+                <Typography color="textSecondary" variant="h5" gutterBottom>
+                    Your Playlists:
                 </Typography>
                 <Playlists
                     toggleChildVisibility={() => { this.toggleChildVisibility() }}
