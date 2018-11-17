@@ -30,7 +30,7 @@ const imageSizes = {
     xs: 100,
     sm: 150,
     md: 250,
-    lg: 400
+    lg: 350
 }
 
 const Home = (props) => {
@@ -40,16 +40,16 @@ const Home = (props) => {
     return (
         <div className={classes.root}>
             <Grid container justify="center" alignItems="center">
-                <Grid item x={3} className={classes.gridItem}>
+                <Grid item xs={4} className={classes.gridItem}>
                     <img style={{ maxHeight: imageSize, maxWidth: imageSize }}
                         src="/resources/img/headphones.png" />
                 </Grid>
-                <Grid item xs={9} className={classes.gridItem} container direction="column" justify="space-around">
+                <Grid item xs={8} className={classes.gridItem} alignItems="center" container direction="column" justify="space-around">
                     <Grid item xs>
-                        <Typography gutterBottom variant="h2">
+                        <Typography gutterBottom align="center" variant="h2">
                             Create your perfect playlist
                     </Typography>
-                        <Typography gutterBottom variant="h5" color="textSecondary">
+                        <Typography gutterBottom align="center" variant="h5" color="textSecondary">
                             Using spotify stuff
                     </Typography>
                     </Grid>
