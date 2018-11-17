@@ -49,7 +49,9 @@ class PlaylistsContainer extends React.Component {
                 <Typography color="textSecondary" variant="h3" gutterBottom>
                     Hello, {this.props.userId}
                 </Typography>
-                <NewPlaylistDialogContainer />
+                <NewPlaylistDialogContainer
+                    onSuccess={(id) => { this.goToPlaylist(id) }}
+                />
                 <Typography color="textSecondary" variant="h5" gutterBottom>
                     Your Playlists:
                 </Typography>
@@ -58,7 +60,6 @@ class PlaylistsContainer extends React.Component {
                     isChildVisible={this.state.isChildVisible}
                     playlists={this.state.playlists}
                     onClick={(id) => { this.goToPlaylist(id) }}
-                    onSuccess={(id) => { this.goToPlaylist(id) }}
                 />
             </div>
         );
