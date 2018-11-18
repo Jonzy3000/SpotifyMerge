@@ -10,10 +10,11 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = {
     card: {
-        display: 'flex'
+        display: 'flex',
+        height: 175
     },
     media: {
-        height: 100,
+        height: 75,
         width: "100%"
     },
     actionArea: {
@@ -25,12 +26,12 @@ const Playlists = (props) =>
     <div className={props.classes.root}>
         <Grid container alignItems="center" spacing={24}>
             {props.playlists.map((playlist) => (
-                <Grid item key={playlist.id} xs={12} sm={4} md={3}>
+                <Grid item key={playlist.id} xs={12} sm={6} md={4} lg={3}>
                     <Card className={props.classes.card}>
                         <CardActionArea className={props.classes.actionArea} onClick={() => { props.onClick(playlist.id) }}>
                             <PlaylistImage imageArray={playlist.images} media={props.classes.media} />
                             <CardContent className={props.classes.content}>
-                                <Typography variant="h5" component="h5">
+                                <Typography noWrap={true} variant="h6" component="h6">
                                     {playlist.name}
                                 </Typography>
                                 <Typography variant="subtitle1" color="textSecondary">
