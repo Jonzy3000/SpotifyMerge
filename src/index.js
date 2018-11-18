@@ -15,6 +15,14 @@ import PlaylistsContainer from "./main/containers/playlistsContainer"
 
 /**
  * TODO
+ * - Ui to create new playlist
+ * - UI to add songs to playlist
+ *      - need to add all options?
+ *      - set number of songs?
+ *      - remove duplicates             
+ * - ui to add and delete songs from playlist
+ * 
+ * 
  * - NavBar and some navigation (back blah blah)
  * - Requests for recommendation
  *    - type ahead for songs/artists?
