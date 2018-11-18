@@ -80,6 +80,7 @@ class NewPlayistDialogContainer extends React.Component {
                     className={classes.button}
                     onClick={this.handleClickOpen}
                     fullWidth
+                    size="large"
                 >
                     <AddIcon />
                     New Playlist

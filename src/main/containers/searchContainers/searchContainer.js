@@ -64,7 +64,6 @@ class SearchContainer extends Component {
             }
         });
 
-
         if (str == "") {
             return;
         }
