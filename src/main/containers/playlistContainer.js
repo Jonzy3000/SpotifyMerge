@@ -7,6 +7,9 @@ import "../../css/main.css"
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button"
 import AddIcon from "@material-ui/icons/Add"
+import { withRouter } from "react-router-dom";
+import SongGenerationContainer from "./songGenerationContainer";
+import { BrowserRouter as  Route } from "react-router-dom";
 
 class PlaylistContainer extends React.Component {
     constructor(props) {
@@ -42,6 +45,10 @@ class PlaylistContainer extends React.Component {
         }
     }
 
+    goToSongGeneration() {
+        this.props.history.push(`/song_generation`);
+    }
+
     render() {
         return (
             <div className="container">
@@ -50,11 +57,12 @@ class PlaylistContainer extends React.Component {
                     variant="outlined"
                     fullWidth
                     size="large"
+                    onClick={() => { this.goToSongGeneration() }}
                 >
                     <AddIcon />
                     Add Songs
                 </Button>
-                <SearchContainer />
+             
                 <PlaylistWithStyles name={this.state.name} tracks={this.state.tracks} />
             </div>
         );
@@ -67,4 +75,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(PlaylistContainer);
+export default connect(mapStateToProps)(withRouter(PlaylistContainer));

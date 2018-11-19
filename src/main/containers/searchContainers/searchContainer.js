@@ -1,11 +1,7 @@
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+
 import React, { Component } from 'react';
-import { Playlists } from "../../../spotifyApi/requests/playlists";
-import { RecommendationApi, RecommendationQueryParamsFactory } from "../../../spotifyApi/requests/recommendations";
+import PropTypes from 'prop-types';
+
 import Search from "../../../spotifyApi/requests/search";
 import MultiChipTypeaheadSearchBox from "../../components/searchComponents/multiChipTypeaheadSearchBox";
 
@@ -17,7 +13,6 @@ class SearchContainer extends Component {
             searchQuery: "",
             selectedItems: null,
             suggestions: [],
-            recommendations: [],
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -28,6 +23,8 @@ class SearchContainer extends Component {
         this.setState({
             selectedItems: value,
         });
+
+        this.props.onSelectedItemsUpdate(value);
     }
 
     formatArtists(artists) {
@@ -74,25 +71,6 @@ class SearchContainer extends Component {
         });
     }
 
-    createPlaylist() {
-        let artist_ids = this.state.selectedItems.filter(item => item.isArtist).map(({ value }) => value);
-        let track_ids = this.state.selectedItems.filter(item => !item.isArtist).map(({ value }) => value);
-
-        const params = RecommendationQueryParamsFactory.getRecommendationQueryParams();
-        params.seed_artists = artist_ids.join(",");
-        params.seed_tracks = track_ids.join(",");
-        RecommendationApi.something(params).then((resp) => {
-            this.setState(
-                { recommendations: resp.data.tracks }
-            );
-            console.log(resp.data.tracks);
-        })
-    }
-
-    addToPlaylist() {
-        Playlists.addTracksToPlayList("6KcypTTZwgGbEh2TXdmHK6", this.state.recommendations.map(({ uri }) => uri));
-    }
-
     render() {
 
         return (
@@ -102,29 +80,13 @@ class SearchContainer extends Component {
                     onLoadSuggestions={this.onSearchChange}
                     value={this.state.multi}
                 />
-                <Button variant="contained" color="primary" onClick={() => { this.createPlaylist() }}>
-                    Create Playlist
-                </Button>
-                {this.state.recommendations.length > 0 ?
-                    <React.Fragment>
-                        <Button variant="contained" color="secondary" onClick={() => this.addToPlaylist()}>
-                            Add To Playlist
-                        </Button>
-                        <List>
-                            {this.state.recommendations.map(track =>
-                                <React.Fragment>
-                                    <ListItem dense>
-                                        <ListItemText primary={track.name} secondary={this.formatArtists(track.artists)} />
-                                    </ListItem>
-                                    <Divider />
-                                </React.Fragment>
-                            )}
-                        </List>
-                    </React.Fragment>
-                    : null}
             </div >
         )
     }
+}
+
+SearchContainer.propTypes = {
+    onSelectedItemsUpdate: PropTypes.func.isRequired,
 }
 
 export default SearchContainer;

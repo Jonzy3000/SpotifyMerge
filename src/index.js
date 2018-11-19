@@ -11,7 +11,8 @@ import LoginWindow from "./auth/loginWindow";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import purple from '@material-ui/core/colors/purple';
-import PlaylistsContainer from "./main/containers/playlistsContainer"
+import PlaylistsContainer from "./main/containers/playlistsContainer";
+import SongGenerationContainer from "./main/containers/songGenerationContainer";
 
 /**
  * TODO
@@ -56,6 +57,7 @@ ReactDOM.render(
                             <Route path="/callback" component={LoginWindow} />
                             <Route path="/playlist" component={PlaylistContainer} />
                             <Route path="/playlists" component={PlaylistsContainer} />
+                            <Route path="/song_generation" component={SongGenerationContainer} />
                         </Switch>
                     </MuiThemeProvider>
                 </div>
