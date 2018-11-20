@@ -13,6 +13,9 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ScaleLoader from "react-spinners/ScaleLoader";
+import { ETIME } from "constants";
+import { FormControl, TextField } from "@material-ui/core";
 
 const styles = theme => ({
     instructions: {
@@ -35,7 +38,7 @@ class SongGenerationContainer extends React.Component {
 
         this.state = {
             activeStep: 0,
-            steps: ["Choose Artists and Songs", "Personalise Search", "Check Results"]
+            steps: ["Choose Artists and Songs", "Advanced Options", "Check Results"]
         }
 
         this.handleNext = this.handleNext.bind(this);
@@ -139,17 +142,24 @@ class StepperState extends React.Component {
 
     render() {
         const { step } = this.state;
+        let ret = (<Typography>Error</Typography>);
         switch (step) {
             case 0:
-                return <SearchContainer
+                ret = <SearchContainer
                     onSelectedItemsUpdate={this.handleSelectedItemsChange}
-                />
+                />;
+                break;
+            case 1:
+                ret = <AdvancedOptions />;
+                return ret;
             case 2:
-                return <RecommendationsComponent selectedItems={this.state.selectedItems} />
-
+                ret = <RecommendationsComponent selectedItems={this.state.selectedItems} />;
+                break;
             default:
                 return <Typography>Error</Typography>
         }
+
+        return ret;
     }
 }
 
@@ -201,9 +211,42 @@ class RecommendationsComponent extends React.Component {
                         )}
                     </List>
                 </React.Fragment>
-                : null
+                : <ScaleLoader />
         )
     }
+}
+
+class AdvancedOptions extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            minMax: {
+                minPopularity: 0,
+                maxPopularity: 100,
+                minTempo: 0,
+                maxTempo: 200,
+            },
+            limit: 100
+        }
+    }
+
+    render() {
+        return (
+            <FormControl>
+                <TextField
+                    id="name"
+                    label="Limit"
+                    variant="outlined"
+                    required
+                    type="number"
+                    max="100"
+                />
+            </FormControl>
+        );
+    }
+
+
 }
 
 export default withStyles(styles)(SongGenerationContainer);
