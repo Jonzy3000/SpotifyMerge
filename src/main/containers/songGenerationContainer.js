@@ -14,8 +14,12 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ScaleLoader from "react-spinners/ScaleLoader";
-import { ETIME } from "constants";
 import { FormControl, TextField } from "@material-ui/core";
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
+
+const createSliderWithTooltip = Slider.createSliderWithTooltip;
+const Range = createSliderWithTooltip(Slider.Range);
 
 const styles = theme => ({
     instructions: {
@@ -216,16 +220,24 @@ class RecommendationsComponent extends React.Component {
     }
 }
 
+const style = { width: 400, margin: 50 };
+
 class AdvancedOptions extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             minMax: {
-                minPopularity: 0,
-                maxPopularity: 100,
-                minTempo: 0,
-                maxTempo: 200,
+                popularity: {
+                    min: 0,
+                    max: 100,
+                    label: "Popularity"
+                },
+                tempo: {
+                    min: 0,
+                    max: 200,
+                    label: "Tempo"
+                }
             },
             limit: 100
         }
@@ -233,16 +245,32 @@ class AdvancedOptions extends React.Component {
 
     render() {
         return (
-            <FormControl>
-                <TextField
-                    id="name"
-                    label="Limit"
-                    variant="outlined"
-                    required
-                    type="number"
-                    max="100"
-                />
-            </FormControl>
+            <div>
+                <FormControl>
+                    <TextField
+                        id="name"
+                        label="Limit"
+                        variant="outlined"
+                        required
+                        type="number"
+                        max="100"
+                    />
+                </FormControl>
+
+                {Object.keys(this.state.minMax).map(key => {
+                    const value = this.state.minMax[key];
+
+                    return (
+                        <div key={key}>
+                            <Typography variant="body1">{value.label}</Typography>
+                            <Range key={key} allowCross={false} defaultValue={[value.min, value.max]} tipFormatter={value =>
+                                <Typography variant="body1">{value}</Typography>
+                            } />
+                        </div>
+                    );
+                })}
+            </div>
+
         );
     }
 
