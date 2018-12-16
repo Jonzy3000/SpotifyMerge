@@ -65,9 +65,9 @@ class PlaylistGenerationContainer extends React.Component {
     Playlists.addTracksToPlayList(
       this.state.playlistId,
       this.props.recommendations.map(({ uri }) => uri)
-    );
-
-    this.goToPlaylist(this.state.playlistId);
+    ).then(() => {
+      this.goToPlaylist(this.state.playlistId);
+    });
   }
 
   goToPlaylist(id) {
@@ -99,7 +99,7 @@ class PlaylistGenerationContainer extends React.Component {
             </div>
           ) : (
             <div className="container">
-              <StepperStateWithId activeStep={activeStep} />
+              <StepperState activeStep={activeStep} />
               <div>
                 <Button
                   disabled={activeStep === 0}
@@ -169,8 +169,6 @@ class StepperState extends React.Component {
   }
 }
 
-const style = { width: 400, margin: 50 };
-
 const mapDispatchToProps = dispatch => {
   return {
     updatePlaylistId: id => dispatch(playlistActions.updatePlaylistId(id))
@@ -183,12 +181,7 @@ const mapStateToProps = ({ playlists }) => {
   };
 };
 
-const StepperStateWithId = connect(
-  null,
-  mapDispatchToProps
-)(withRouter(StepperState));
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(PlaylistGenerationContainer));
+)(withRouter(withStyles(styles)(PlaylistGenerationContainer)));
