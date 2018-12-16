@@ -29,6 +29,7 @@ class PlaylistsContainer extends React.Component {
         this.fetchPlaylistData();
     }
 
+    // TODO don't this this is correct lifecycle method
     componentDidUpdate(prevProps) {
         if (this.props.userId !== prevProps.userId) {
             this.fetchPlaylistData();

@@ -4,7 +4,7 @@ import store from "./../../redux/store";
 
 const RECOMMENDATION_URL = `${Utils.SPOTIFY_URL}/recommendations`;
 class RecommendationApi {
-    static something(params) {
+    static getRecommendations(params) {
         return Axios.get(RECOMMENDATION_URL, {
             params,
             headers: {
