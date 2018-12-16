@@ -9,6 +9,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ScaleLoader from "react-spinners/ScaleLoader";
+import * as playlistsActions from "../../../redux/actions/playlistCreation";
 
 class RecommendationsComponent extends React.Component {
   constructor(props) {
@@ -48,6 +49,7 @@ class RecommendationsComponent extends React.Component {
 
     RecommendationApi.getRecommendations(params).then(resp => {
       this.setState({ recommendations: resp.data.tracks });
+      this.props.updateRecommendations(resp.data.tracks);
     });
   }
 
@@ -90,4 +92,14 @@ const mapStateToProps = ({ playlists }) => {
   };
 };
 
-export default connect(mapStateToProps)(RecommendationsComponent);
+const mapDispatchToProps = dispatch => {
+  return {
+    updateRecommendations: recommendations =>
+      dispatch(playlistsActions.updateRecommendations(recommendations))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RecommendationsComponent);

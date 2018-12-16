@@ -8,9 +8,12 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import SearchContainer from "./searchContainers/searchContainer";
 import { Playlists } from "../../../spotifyApi/requests/playlists";
-
 import RecommendationsComponent from "./recommendationsComponent";
 import AdvancedOptions from "./advancedOptions";
+import * as playlistActions from "../../../redux/actions/playlistCreation";
+import { connect } from "react-redux";
+import Utils from "../../../spotifyApi/utils";
+import { withRouter } from "react-router-dom";
 
 const styles = theme => ({
   instructions: {
@@ -25,15 +28,22 @@ class PlaylistGenerationContainer extends React.Component {
 
     this.state = {
       activeStep: 0,
-      steps: ["Choose Artists and Songs", "Advanced Options", "Check Results"]
+      steps: ["Choose Artists and Songs", "Advanced Options", "Check Results"],
+      playlistId: Utils.getHashParams().id
     };
 
     this.handleNext = this.handleNext.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.handleReset = this.handleReset.bind(this);
+    props.updatePlaylistId(this.state.id);
   }
 
   handleNext() {
+    if (this.state.activeStep + 1 == this.state.steps.length) {
+      this.addToPlaylist();
+      return;
+    }
+
     this.setState(state => ({
       activeStep: state.activeStep + 1
     }));
@@ -49,6 +59,19 @@ class PlaylistGenerationContainer extends React.Component {
     this.setState(state => ({
       activeStep: 0
     }));
+  }
+
+  addToPlaylist() {
+    Playlists.addTracksToPlayList(
+      this.state.playlistId,
+      this.props.recommendations.map(({ uri }) => uri)
+    );
+
+    this.goToPlaylist(this.state.playlistId);
+  }
+
+  goToPlaylist(id) {
+    this.props.history.push(`/playlist#id=${id}`);
   }
 
   render() {
@@ -76,7 +99,7 @@ class PlaylistGenerationContainer extends React.Component {
             </div>
           ) : (
             <div className="container">
-              <StepperState activeStep={activeStep} />
+              <StepperStateWithId activeStep={activeStep} />
               <div>
                 <Button
                   disabled={activeStep === 0}
@@ -90,7 +113,9 @@ class PlaylistGenerationContainer extends React.Component {
                   color="primary"
                   onClick={this.handleNext}
                 >
-                  {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                  {activeStep === steps.length - 1
+                    ? "Add Songs To Playlist"
+                    : "Next"}
                 </Button>
               </div>
             </div>
@@ -129,13 +154,6 @@ class StepperState extends React.Component {
     this.setState({ selectedItems: value });
   }
 
-  addToPlaylist() {
-    Playlists.addTracksToPlayList(
-      "6KcypTTZwgGbEh2TXdmHK6",
-      this.state.recommendations.map(({ uri }) => uri)
-    );
-  }
-
   render() {
     const { step } = this.state;
     switch (step) {
@@ -153,4 +171,24 @@ class StepperState extends React.Component {
 
 const style = { width: 400, margin: 50 };
 
-export default withStyles(styles)(PlaylistGenerationContainer);
+const mapDispatchToProps = dispatch => {
+  return {
+    updatePlaylistId: id => dispatch(playlistActions.updatePlaylistId(id))
+  };
+};
+
+const mapStateToProps = ({ playlists }) => {
+  return {
+    recommendations: playlists.recommendations
+  };
+};
+
+const StepperStateWithId = connect(
+  null,
+  mapDispatchToProps
+)(withRouter(StepperState));
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(PlaylistGenerationContainer));

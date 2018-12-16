@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import { withRouter } from "react-router-dom";
 import { BrowserRouter as Route } from "react-router-dom";
+import * as playlistActions from "../../redux/actions/playlistCreation";
 
 class PlaylistContainer extends React.Component {
   constructor(props) {
@@ -21,6 +22,8 @@ class PlaylistContainer extends React.Component {
       tracks: [],
       name: ""
     };
+
+    props.updatePlaylistId(this.state.id);
   }
 
   fetchDataAndUpdate() {
@@ -47,7 +50,7 @@ class PlaylistContainer extends React.Component {
   }
 
   goToSongGeneration() {
-    this.props.history.push(`/song_generation`);
+    this.props.history.push(`/song_generation#id=${this.state.playlistId}`);
   }
 
   render() {
@@ -78,4 +81,13 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(withRouter(PlaylistContainer));
+const mapDispatchToProps = dispatch => {
+  return {
+    updatePlaylistId: id => dispatch(playlistActions.updatePlaylistId(id))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(PlaylistContainer));
