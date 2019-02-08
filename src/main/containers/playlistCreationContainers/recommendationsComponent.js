@@ -21,15 +21,7 @@ class RecommendationsComponent extends React.Component {
 
   generateParamsFromOptions() {
     const params = RecommendationQueryParamsFactory.getRecommendationQueryParams();
-    const options = this.props.options.minMax;
-    params.max_popularity = options.popularity.max;
-    params.min_popularity = options.popularity.min;
-
-    params.max_tempo = options.tempo.max;
-    params.min_tempo = options.tempo.min;
-
     params.limit = this.props.options.limit;
-
     return params;
   }
 
@@ -44,12 +36,16 @@ class RecommendationsComponent extends React.Component {
 
     const params = this.generateParamsFromOptions();
 
-    params.seed_artists = artist_ids.join(",");
-    params.seed_tracks = track_ids.join(",");
+    params.seed_artists = artist_ids;
+    params.seed_tracks = track_ids;
 
-    RecommendationApi.getRecommendations(params).then(resp => {
-      this.setState({ recommendations: resp.data.tracks });
-      this.props.updateRecommendations(resp.data.tracks);
+    RecommendationApi.getRecommendations(params).then(responses => {
+      debugger;
+      const tracks = [].concat(
+        ...responses.map(response => response.data.tracks)
+      );
+      this.setState({ recommendations: tracks });
+      this.props.updateRecommendations(tracks);
     });
   }
 

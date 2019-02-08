@@ -9,7 +9,6 @@ import Typography from "@material-ui/core/Typography";
 import SearchContainer from "./searchContainers/searchContainer";
 import { Playlists } from "../../../spotifyApi/requests/playlists";
 import RecommendationsComponent from "./recommendationsComponent";
-import AdvancedOptions from "./advancedOptions";
 import * as playlistActions from "../../../redux/actions/playlistCreation";
 import { connect } from "react-redux";
 import Utils from "../../../spotifyApi/utils";
@@ -28,7 +27,7 @@ class PlaylistGenerationContainer extends React.Component {
 
     this.state = {
       activeStep: 0,
-      steps: ["Choose Artists and Songs", "Advanced Options", "Check Results"],
+      steps: ["Choose Artists and Songs", "Check Results"],
       playlistId: Utils.getHashParams().id
     };
 
@@ -160,8 +159,6 @@ class StepperState extends React.Component {
       case 0:
         return <SearchContainer />;
       case 1:
-        return <AdvancedOptions />;
-      case 2:
         return <RecommendationsComponent />;
       default:
         return <Typography>Error</Typography>;

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Search from "../../../../spotifyApi/requests/search";
 import MultiChipTypeaheadSearchBox from "../../../components/searchComponents/multiChipTypeaheadSearchBox";
 import * as playlistCreation from "../../../../redux/actions/playlistCreation";
+import { FormControl, TextField } from "@material-ui/core";
 
 class SearchContainer extends Component {
   constructor(props) {
@@ -76,6 +77,18 @@ class SearchContainer extends Component {
     });
   }
 
+  onLimitChange(e) {
+    const number = Number(e.target.value);
+    this.setState(
+      () => ({
+        limit: number
+      }),
+      () => {
+        this.props.updateOptions(this.state);
+      }
+    );
+  }
+
   render() {
     return (
       <div>
@@ -84,17 +97,33 @@ class SearchContainer extends Component {
           onLoadSuggestions={this.onSearchChange}
           value={this.state.multi}
         />
+
+        <FormControl>
+          <TextField
+            id="name"
+            label="Number Of Songs"
+            variant="outlined"
+            required
+            type="number"
+            max="100"
+            onChange={e => this.onLimitChange(e)}
+          />
+        </FormControl>
       </div>
     );
   }
 }
 
 const mapDispatchToProps = dispatch => {
-    return {
-        updateSelection: selectedItems => dispatch(
-            playlistCreation.updateSongsChosen(selectedItems)
-        )
-    }
-}
+  return {
+    updateSelection: selectedItems =>
+      dispatch(playlistCreation.updateSongsChosen(selectedItems)),
+    updateOptions: options =>
+      dispatch(playlistCreation.updateOptionsChosen(options))
+  };
+};
 
-export default connect(null, mapDispatchToProps)(SearchContainer);
+export default connect(
+  null,
+  mapDispatchToProps
+)(SearchContainer);
